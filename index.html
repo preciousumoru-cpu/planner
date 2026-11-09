@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jumia Media Plan Builder 2026</title>
+  <style>
+    :root {
+      --jumia-orange: #F68B1E;
+      --navy-header: #073763;
+      --navy-dark: #0B2545;
+      --onsite-bg: #E7EEFA;
+      --onsite-border: #A4C2F4;
+      --display-bg: #EBF4E8;
+      --display-border: #B7D7A8;
+      --crm-bg: #FFF9E6;
+      --crm-border: #FFE599;
+      --spon-bg: #F0EDF7;
+      --spon-border: #D9D2E9;
+      --pom-bg: #FDF1E5;
+      --pom-border: #F9CB9C;
+      --text-dark: #222222;
+      --text-muted: #555555;
+      --border-gray: #E0E0E0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: #F8F9FA; color: var(--text-dark); padding: 20px; line-height: 1.4; }
+    .header { background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-header) 100%); color: white; padding: 20px 28px; border-radius: 10px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .header h1 { font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+    .header h1 span { color: var(--jumia-orange); }
+    .header p { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+    .btn-export { background: var(--jumia-orange); color: white; border: none; padding: 10px 18px; font-size: 13px; font-weight: 700; border-radius: 6px; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 6px rgba(246,139,30,0.3); }
+    .btn-export:hover { background: #e0770d; transform: translateY(-1px); }
+
+    .grid-container { display: grid; grid-template-columns: 320px 1fr; gap: 24px; }
+    @media (max-width: 1024px) { .grid-container { grid-template-columns: 1fr; } }
+
+    .card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid var(--border-gray); margin-bottom: 20px; }
+    .card h2 { font-size: 15px; font-weight: 700; color: var(--navy-header); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #EEF2F7; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 600; color: #444; margin-bottom: 6px; }
+    .form-control { width: 100%; padding: 9px 12px; font-size: 13px; border: 1px solid #CCC; border-radius: 6px; outline: none; background: #FAFAFA; transition: 0.2s; }
+    .form-control:focus { border-color: var(--jumia-orange); background: white; box-shadow: 0 0 0 2px rgba(246,139,30,0.15); }
+    .currency-toggle { display: flex; border: 1px solid #CCC; border-radius: 6px; overflow: hidden; margin-bottom: 14px; }
+    .currency-toggle button { flex: 1; padding: 8px; font-size: 12px; font-weight: 700; border: none; background: #F0F0F0; cursor: pointer; transition: 0.2s; }
+    .currency-toggle button.active { background: var(--navy-header); color: white; }
+
+    .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 20px; }
+    .kpi-card { background: white; border-radius: 8px; padding: 14px 18px; border: 1px solid var(--border-gray); box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
+    .kpi-card .label { font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--text-muted); }
+    .kpi-card .val { font-size: 20px; font-weight: 800; color: var(--navy-header); margin-top: 4px; }
+    .kpi-card .sub { font-size: 11px; color: #28a745; margin-top: 2px; font-weight: 600; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; }
+    th { background-color: var(--navy-header); color: white; font-weight: 600; padding: 10px 12px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px; }
+    td { padding: 9px 12px; border-bottom: 1px solid #EBEBEB; }
+    tr:last-child td { border-bottom: none; }
+
+    .tag { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+    .tag-onsite { background: var(--onsite-border); color: #0C3E75; }
+    .tag-display { background: var(--display-border); color: #2E5A1E; }
+    .tag-crm { background: var(--crm-border); color: #8C6B00; }
+    .tag-spon { background: var(--spon-border); color: #4A2E75; }
+    .tag-pom { background: var(--pom-border); color: #A04A00; }
+
+    .gantt-scroll { overflow-x: auto; margin-top: 10px; }
+    .gantt-table th, .gantt-table td { text-align: center; padding: 6px 8px; min-width: 32px; font-size: 11px; }
+    .gantt-table td.active-day { background-color: #B5D2FF; color: #073763; font-weight: bold; border-radius: 3px; }
+
+    .footer { text-align: center; font-size: 12px; color: #888; margin-top: 30px; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div>
+      <h1><span>JUMIA</span> Advertising &bull; Media Plan Generator 2026</h1>
+      <p>Automated budget distribution, commercial calendar flighting, and 2026 rate card engine</p>
+    </div>
+    <button class="btn-export" onclick="exportPlanCSV()">&#11015; Export Plan (CSV / Excel)</button>
+  </div>
+
+  <div class="grid-container">
+    <!-- LEFT PANEL: INPUTS -->
+    <div>
+      <div class="card">
+        <h2>Campaign Parameters</h2>
+
+        <div class="form-group">
+          <label>Campaign Currency</label>
+          <div class="currency-toggle">
+            <button id="curr-ngn" class="active" onclick="setCurrency('NGN')">₦ NGN</button>
+            <button id="curr-usd" onclick="setCurrency('USD')">$ USD</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Brand / Partner Name</label>
+          <input type="text" id="brand-name" class="form-control" value="Nivea Official Store" oninput="calculatePlan()">
+        </div>
+
+        <div class="form-group">
+          <label>Focus Category</label>
+          <select id="brand-cat" class="form-control" onchange="calculatePlan()">
+            <option value="Health & Beauty">Health & Beauty</option>
+            <option value="Phones & Tablets">Phones & Tablets</option>
+            <option value="Electronics & Appliances">Electronics & Appliances</option>
+            <option value="Supermarket & FMCG">Supermarket & FMCG</option>
+            <option value="Fashion & Apparel">Fashion & Apparel</option>
+            <option value="Home & Living">Home & Living</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Campaign Objective</label>
+          <select id="campaign-goal" class="form-control" onchange="calculatePlan()">
+            <option value="sales">Sales Uplift (Performance & Orders)</option>
+            <option value="consideration">Consideration & Intent (Clicks & PDPs)</option>
+            <option value="awareness">Awareness & Brand Equity (Reach & Top of Mind)</option>
+            <option value="full_funnel">Full Funnel 360 (Launch / Brand Day)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label id="budget-label">Total Campaign Budget (₦ NGN)</label>
+          <input type="number" id="campaign-budget" class="form-control" value="5000000" step="50000" oninput="calculatePlan()">
+        </div>
+
+        <div class="form-group">
+          <label>Commercial Event / Window</label>
+          <select id="event-type" class="form-control" onchange="calculatePlan()">
+            <option value="t1_tech">March - Tech Week (Tier 1 Mega)</option>
+            <option value="t1_anniversary">June - Jumia Anniversary (Tier 1 Mega)</option>
+            <option value="t1_blackfriday">November - Black Friday (Tier 1 Super)</option>
+            <option value="t2_valentines">February - Valentine's Day (Tier 2)</option>
+            <option value="t2_easter">April - Easter & Eid Sale (Tier 2)</option>
+            <option value="t2_bts">August - Back to School (Tier 2)</option>
+            <option value="bau">Standard BAU Month (Payday Focus)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Flight Duration: <strong id="duration-val">14</strong> Days</label>
+          <input type="range" id="campaign-duration" min="3" max="30" value="14" style="width:100%" oninput="updateDuration(this.value)">
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: PLAN OUTPUTS -->
+    <div>
+      <!-- KPI CARDS -->
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="label">Total Budget</div>
+          <div class="val" id="kpi-budget">₦5,000,000</div>
+          <div class="sub">100% Allocated</div>
+        </div>
+        <div class="kpi-card">
+          <div class="label">Est. Impressions</div>
+          <div class="val" id="kpi-impressions">0</div>
+          <div class="sub">Target Audience Reach</div>
+        </div>
+        <div class="kpi-card">
+          <div class="label">Est. Traffic / Clicks</div>
+          <div class="val" id="kpi-clicks">0</div>
+          <div class="sub">Visits to Store & SKUs</div>
+        </div>
+        <div class="kpi-card">
+          <div class="label">Est. Blended CTR</div>
+          <div class="val" id="kpi-ctr">0.00%</div>
+          <div class="sub">Above 0.45% Benchmark</div>
+        </div>
+      </div>
+
+      <!-- ALLOCATION TABLE -->
+      <div class="card">
+        <h2>Recommended Channel & Placement Distribution</h2>
+        <div style="overflow-x: auto;">
+          <table id="plan-table">
+            <thead>
+              <tr>
+                <th>Channel</th>
+                <th>Placement</th>
+                <th>Objective</th>
+                <th>Targeting / Logic</th>
+                <th>Unit Rate (2026)</th>
+                <th style="text-align:right">Allocated Budget</th>
+                <th style="text-align:right">Est. Impressions</th>
+                <th style="text-align:right">Est. Clicks</th>
+                <th>Flight Timing</th>
+              </tr>
+            </thead>
+            <tbody id="plan-tbody">
+              <!-- Rendered via JS -->
+            </tbody>
+            <tfoot>
+              <tr style="background:#073763; color:white; font-weight:bold;">
+                <td colspan="5" style="text-align:right; padding:10px;">TOTAL:</td>
+                <td id="foot-budget" style="text-align:right; padding:10px;">₦0</td>
+                <td id="foot-impressions" style="text-align:right; padding:10px;">0</td>
+                <td id="foot-clicks" style="text-align:right; padding:10px;">0</td>
+                <td style="padding:10px;">Reconciled</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- FLIGHTING GANTT -->
+      <div class="card">
+        <h2>Daily Flighting & Activation Schedule (<span id="gantt-days-label">14 Days</span>)</h2>
+        <div class="gantt-scroll">
+          <table class="gantt-table" id="gantt-table">
+            <thead id="gantt-thead"></thead>
+            <tbody id="gantt-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Jumia Advertising Media Plan Builder &bull; Sourced from Official 2026 Rate Card &amp; Commercial Onboarding Specifications
+  </div>
+
+  <script>
+    let currentCurrency = 'NGN';
+    const FX_RATE = 1500; // 1 USD = 1,500 NGN for 2026 Rate Card conversions
+
+    const RATE_CARD_2026 = [
+      { id: 'hp_slider', channel: 'Onsite', tag: 'tag-onsite', placement: 'Homepage Slider (3/4)', obj: 'Awareness', targeting: 'Homepage Broad Reach', rateNGN: 975000, rateUSD: 650, unit: 'CPD (1 Day)', ctr: 0.0042, share: { sales: 0.15, consideration: 0.20, awareness: 0.35, full_funnel: 0.25 }, activeDays: (d) => [1, 2] },
+      { id: 'hp_floor', channel: 'Onsite', tag: 'tag-onsite', placement: 'Homepage Product Floor', obj: 'Sales Uplift', targeting: 'Top Deals on Homepage', rateNGN: 525000, rateUSD: 350, unit: 'CPD (3 Days)', ctr: 0.0070, share: { sales: 0.15, consideration: 0.10, awareness: 0.10, full_funnel: 0.12 }, activeDays: (d) => [1, 2, 3] },
+      { id: 'cat_banner', channel: 'Onsite', tag: 'tag-onsite', placement: 'Category Single Banner', obj: 'Consideration', targeting: 'Category Aisle Shoppers', rateNGN: 420000, rateUSD: 280, unit: '1 Week', ctr: 0.0103, share: { sales: 0.08, consideration: 0.15, awareness: 0.15, full_funnel: 0.10 }, activeDays: (d) => Array.from({length: Math.min(d, 7)}, (_, i) => i + 1) },
+      { id: 'cat_floor', channel: 'Onsite', tag: 'tag-onsite', placement: 'Category Product Floor', obj: 'Sales Uplift', targeting: 'Category Browsers', rateNGN: 210000, rateUSD: 140, unit: '1 Week', ctr: 0.0089, share: { sales: 0.07, consideration: 0.05, awareness: 0.05, full_funnel: 0.06 }, activeDays: (d) => Array.from({length: Math.min(d, 7)}, (_, i) => i + 1) },
+      { id: 'disp_search', channel: 'Display Ads', tag: 'tag-display', placement: 'Search Display Banner', obj: 'Consideration & Intent', targeting: 'Top 10 Category Search Terms', rateNGN: 3750, rateUSD: 2.5, unit: 'CPM', ctr: 0.0199, share: { sales: 0.12, consideration: 0.20, awareness: 0.10, full_funnel: 0.14 }, activeDays: (d) => Array.from({length: d}, (_, i) => i + 1) },
+      { id: 'disp_pdp', channel: 'Display Ads', tag: 'tag-display', placement: 'Competitor PDP Banner', obj: 'Sales Uplift', targeting: 'Competitor & Cross-Category PDPs', rateNGN: 3750, rateUSD: 2.5, unit: 'CPM', ctr: 0.0163, share: { sales: 0.10, consideration: 0.15, awareness: 0.05, full_funnel: 0.08 }, activeDays: (d) => Array.from({length: d}, (_, i) => i + 1) },
+      { id: 'disp_checkout', channel: 'Display Ads', tag: 'tag-display', placement: 'Checkout Success Banner', obj: 'Sales Uplift', targeting: 'Shoppers at Point of Conversion', rateNGN: 4950, rateUSD: 3.3, unit: 'CPM', ctr: 0.0494, share: { sales: 0.08, consideration: 0.05, awareness: 0.00, full_funnel: 0.05 }, activeDays: (d) => Array.from({length: Math.floor(d/2)}, (_, i) => Math.floor(d/2) + i + 1) },
+      { id: 'crm_push', channel: 'CRM', tag: 'tag-crm', placement: 'App Push Notification', obj: 'Sales Uplift', targeting: '3 Hyper-personalized Logics', rateNGN: 525000, rateUSD: 350, unit: '1 Experiment', ctr: 0.0103, share: { sales: 0.10, consideration: 0.05, awareness: 0.10, full_funnel: 0.08 }, activeDays: (d) => [1, Math.min(8, d)] },
+      { id: 'crm_nl_sku', channel: 'CRM', tag: 'tag-crm', placement: 'Newsletter SKU Insertion', obj: 'Sales Uplift', targeting: 'Segmented Buyer Database', rateNGN: 210000, rateUSD: 140, unit: '1 Insertion', ctr: 0.0039, share: { sales: 0.05, consideration: 0.05, awareness: 0.00, full_funnel: 0.04 }, activeDays: (d) => [Math.min(5, d)] },
+      { id: 'spon_products', channel: 'Sponsored Ads', tag: 'tag-spon', placement: 'Sponsored Products (Catalog)', obj: 'Sales Uplift', targeting: 'Hero SKUs Slot #2 & Every 5th', rateNGN: 75, rateUSD: 0.05, unit: 'CPC Bid', ctr: 0.0250, share: { sales: 0.10, consideration: 0.00, awareness: 0.00, full_funnel: 0.08 }, activeDays: (d) => Array.from({length: d}, (_, i) => i + 1) }
+    ];
+
+    function setCurrency(curr) {
+      if (currentCurrency === curr) return;
+      const bInput = document.getElementById('campaign-budget');
+      let val = parseFloat(bInput.value) || 0;
+      if (curr === 'USD') {
+        val = Math.round(val / FX_RATE);
+        document.getElementById('curr-usd').classList.add('active');
+        document.getElementById('curr-ngn').classList.remove('active');
+        document.getElementById('budget-label').innerText = 'Total Campaign Budget ($ USD)';
+      } else {
+        val = Math.round(val * FX_RATE);
+        document.getElementById('curr-ngn').classList.add('active');
+        document.getElementById('curr-usd').classList.remove('active');
+        document.getElementById('budget-label').innerText = 'Total Campaign Budget (₦ NGN)';
+      }
+      currentCurrency = curr;
+      bInput.value = val;
+      calculatePlan();
+    }
+
+    function updateDuration(val) {
+      document.getElementById('duration-val').innerText = val;
+      document.getElementById('gantt-days-label').innerText = val + ' Days';
+      calculatePlan();
+    }
+
+    function fmtMoney(val) {
+      if (currentCurrency === 'USD') {
+        return '$' + Math.round(val).toLocaleString();
+      }
+      return '₦' + Math.round(val).toLocaleString();
+    }
+
+    let currentCalculatedRows = [];
+
+    function calculatePlan() {
+      const budget = parseFloat(document.getElementById('campaign-budget').value) || 0;
+      const goal = document.getElementById('campaign-goal').value;
+      const duration = parseInt(document.getElementById('campaign-duration').value) || 14;
+
+      let totalShares = 0;
+      RATE_CARD_2026.forEach(item => {
+        totalShares += item.share[goal] || 0;
+      });
+
+      let allocatedRows = [];
+      let totalBudgetSpent = 0;
+      let totalImpressions = 0;
+      let totalClicks = 0;
+
+      RATE_CARD_2026.forEach(item => {
+        const itemShare = (item.share[goal] || 0) / (totalShares || 1);
+        const itemBudget = budget * itemShare;
+        if (itemBudget <= 0) return;
+
+        const rate = currentCurrency === 'USD' ? item.rateUSD : item.rateNGN;
+        let imps = 0;
+        let clicks = 0;
+
+        if (item.unit === 'CPM') {
+          imps = Math.round((itemBudget / rate) * 1000);
+          clicks = Math.round(imps * item.ctr);
+        } else if (item.unit.includes('CPC')) {
+          clicks = Math.round(itemBudget / rate);
+          imps = Math.round(clicks / item.ctr);
+        } else {
+          // Flat rate / CPD: calculate effective units
+          const units = itemBudget / rate;
+          imps = Math.round(units * (item.channel === 'CRM' ? 250000 : 200000));
+          clicks = Math.round(imps * item.ctr);
+        }
+
+        totalBudgetSpent += itemBudget;
+        totalImpressions += imps;
+        totalClicks += clicks;
+
+        allocatedRows.push({
+          ...item,
+          allocatedBudget: itemBudget,
+          estImps: imps,
+          estClicks: clicks,
+          displayRate: (currentCurrency === 'USD' ? '$' + rate.toLocaleString() : '₦' + rate.toLocaleString()) + ' / ' + item.unit
+        });
+      });
+
+      currentCalculatedRows = allocatedRows;
+
+      // Update KPIs
+      document.getElementById('kpi-budget').innerText = fmtMoney(budget);
+      document.getElementById('kpi-impressions').innerText = totalImpressions.toLocaleString();
+      document.getElementById('kpi-clicks').innerText = totalClicks.toLocaleString();
+      const avgCtr = totalImpressions > 0 ? ((totalClicks / totalImpressions) * 100).toFixed(2) + '%' : '0.00%';
+      document.getElementById('kpi-ctr').innerText = avgCtr;
+
+      // Render Table
+      const tbody = document.getElementById('plan-tbody');
+      tbody.innerHTML = '';
+      allocatedRows.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><span class="tag ${r.tag}">${r.channel}</span></td>
+          <td><strong>${r.placement}</strong></td>
+          <td>${r.obj}</td>
+          <td>${r.targeting}</td>
+          <td>${r.displayRate}</td>
+          <td style="text-align:right; font-weight:700;">${fmtMoney(r.allocatedBudget)}</td>
+          <td style="text-align:right;">${r.estImps.toLocaleString()}</td>
+          <td style="text-align:right;">${r.estClicks.toLocaleString()}</td>
+          <td><span style="font-size:11px; background:#F0F0F0; padding:2px 6px; border-radius:4px;">${r.activeDays(duration).length} Days</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('foot-budget').innerText = fmtMoney(totalBudgetSpent);
+      document.getElementById('foot-impressions').innerText = totalImpressions.toLocaleString();
+      document.getElementById('foot-clicks').innerText = totalClicks.toLocaleString();
+
+      // Render Gantt Schedule
+      renderGantt(allocatedRows, duration);
+    }
+
+    function renderGantt(rows, duration) {
+      const thead = document.getElementById('gantt-thead');
+      const tbody = document.getElementById('gantt-tbody');
+
+      let thHTML = '<tr><th style="text-align:left; min-width:180px;">Channel Placement</th>';
+      for (let d = 1; d <= duration; d++) {
+        thHTML += `<th>D${d}</th>`;
+      }
+      thHTML += '</tr>';
+      thead.innerHTML = thHTML;
+
+      tbody.innerHTML = '';
+      rows.forEach(r => {
+        const activeSet = new Set(r.activeDays(duration));
+        let trHTML = `<tr><td style="text-align:left; font-weight:600;">${r.placement}</td>`;
+        for (let d = 1; d <= duration; d++) {
+          if (activeSet.has(d)) {
+            trHTML += `<td class="active-day">&#10003;</td>`;
+          } else {
+            trHTML += `<td>-</td>`;
+          }
+        }
+        trHTML += '</tr>';
+        tbody.innerHTML += trHTML;
+      });
+    }
+
+    function exportPlanCSV() {
+      const brand = document.getElementById('brand-name').value;
+      let csv = 'Channel,Placement,Objective,Targeting,Unit Rate,Allocated Budget,Est Impressions,Est Clicks\n';
+      currentCalculatedRows.forEach(r => {
+        csv += `"${r.channel}","${r.placement}","${r.obj}","${r.targeting}","${r.displayRate}",${Math.round(r.allocatedBudget)},${r.estImps},${r.estClicks}\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `${brand.replace(/\s+/g, '_')}_Jumia_Media_Plan.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Initialize on load
+    calculatePlan();
+  </script>
+</body>
+</html>
